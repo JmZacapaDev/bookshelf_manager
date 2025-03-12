@@ -172,3 +172,15 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Editors
+.vscode/
+.idea/
+
+# Vim - temporal files
+*.swp
+*.swo
+*.swn
+
+# Local database
+*.db
