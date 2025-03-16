@@ -13,8 +13,3 @@ class KeyboardBarcodeScanner(BarcodeScanner):
     def scan_barcode(self) -> str:
         "Reads a barcode manuallyfrom user input."
         return input('Insert barcode: ').strip()
-
-if __name__ == '__main__':
-    print('main funtion started')
-    KeyboardBarcodeScanner.scan_barcode()
-    print('main funtion finish')
