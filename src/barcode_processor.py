@@ -1,23 +1,28 @@
-from barcode_scanner import BarcodeScanner
+from barcode_scanner   import BarcodeScanner
 from barcode_validator import BarcodeValidator
+from logger            import get_logger
 
+logger = get_logger(__name__)
 
 class BarcodeProcessor:
-    """Handles barcode input and processing."""
+    """Handles barcode scanning and validation."""
 
     def __init__(self, scanner: BarcodeScanner, validator: BarcodeValidator):
         self.scanner = scanner
         self.validator = validator
 
     def insert_barcode(self) -> str:
-        """Prompts the user for a barcode, validates it, and returns the valid barcode."""
+        """Scans and validates a barcode."""
         barcode = self.scanner.scan_barcode()
-        print("Validating your barcode...")
 
-        if self.validator.validate_barcode(barcode):
-            print("Barcode is valid:", barcode)
-            return barcode
+        if not barcode:
+            logger.warning("Empty barcode input detected.")
+            return None
 
-        print("Invalid barcode.")
-        return None
+        if not self.validator.validate_barcode(barcode):
+            logger.error(f"Invalid barcode entered: {barcode}")
+            return None
+
+        logger.info(f"Valid barcode processed: {barcode}")
+        return barcode
 
