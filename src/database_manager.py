@@ -1,5 +1,8 @@
 import os
 import sqlite3
+from logger import get_logger
+
+logger = get_logger(__name__)
 
 DB_PATH = os.path.join("data", "books.db")
 
@@ -13,7 +16,7 @@ class DatabaseManager:
 
     def connect(self):
         """Connects to SQLite and ensures the 'data' directory exists."""
-        os.makedirs("data", exist_ok=True)  # ✅ Ensure 'data/' exists
+        os.makedirs("data", exist_ok=True)  # Ensure 'data/' exists
         return sqlite3.connect(DB_PATH)
 
     def create_table(self):
@@ -36,9 +39,9 @@ class DatabaseManager:
             cursor.execute("INSERT INTO books (isbn, title, author) VALUES (?, ?, ?)",
                            (isbn, title, author))
             self.conn.commit()
-            print(f"Book '{title}' added successfully.")
+            logger.info(f"Book added: {title} (isbn: {isbn})")
         except sqlite3.IntegrityError:
-            print("Error: Book with this ISBN already exists.")
+            logger.error(f"Duplicate entry: ISBN {isbn} already exists.")
 
     def get_book(self, isbn: str) -> dict | None:
         """Retrieves book details by ISBN."""
