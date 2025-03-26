@@ -52,6 +52,17 @@ class DatabaseManager:
             return {"id": row[0], "isbn": row[1], "title": row[2], "author": row[3]}
         return None
 
+    def get_all_books(self) -> list[dict]:
+        """Returns a list of all stored books."""
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT * FROM books")
+        rows = cursor.fetchall()
+
+        return [
+            {"id": row[0], "isbn": row[1], "title": row[2], "author": row[3]}
+            for row in rows
+        ]
+
     def remove_book(self, isbn: str) -> bool:
         """Removes a book from the database by ISBN."""
         cursor = self.conn.cursor()
