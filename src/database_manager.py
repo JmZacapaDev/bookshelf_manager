@@ -13,7 +13,7 @@ class DatabaseManager:
 
     def connect(self):
         """Connects to SQLite and ensures the 'data' directory exists."""
-        os.makedirs("data", exist_ok=True)  # ✅ Ensure 'data/' exists
+        os.makedirs("data", exist_ok=True)  # Ensure 'data/' exists
         return sqlite3.connect(DB_PATH)
 
     def create_table(self):
@@ -48,6 +48,17 @@ class DatabaseManager:
         if row:
             return {"id": row[0], "isbn": row[1], "title": row[2], "author": row[3]}
         return None
+
+    def get_all_books(self) -> list[dict]:
+        """Returns a list of all stored books."""
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT * FROM books")
+        rows = cursor.fetchall()
+
+        return [
+            {"id": row[0], "isbn": row[1], "title": row[2], "author": row[3]}
+            for row in rows
+        ]
 
     def remove_book(self, isbn: str) -> bool:
         """Removes a book from the database by ISBN."""
