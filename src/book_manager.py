@@ -7,9 +7,9 @@ class BookManager:
     def __init__(self):
         self.storage = DatabaseManager()
 
-    def add_book(self, book_data: dict) -> None:
-        """Adds a book to the database."""
-        self.storage.add_book(book_data["isbn"], book_data["title"], book_data["author"])
+    def add_book(self, isbn: str, title: str, author: str):
+        return self.storage.add_book(isbn, title, author)
+
 
     def get_books(self) -> list[dict]:
         """Returns all stored books."""
