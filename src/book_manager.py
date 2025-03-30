@@ -7,20 +7,19 @@ class BookManager:
     def __init__(self):
         self.storage = DatabaseManager()
 
-    def add_book(self, book_data: dict) -> None:
-        """Adds a book to the database."""
-        self.storage.add_book(book_data["isbn"], book_data["title"], book_data["author"])
-
-    def get_books(self) -> list[dict]:
-        """Returns all stored books."""
-        return self.storage.get_all_books()
+    def add_book(self, isbn: str, title: str, author: str):
+        return self.storage.add_book(isbn, title, author)
 
     def find_book(self, isbn: str) -> dict | None:
         """Finds a book by ISBN."""
         return self.storage.get_book(isbn)
 
-    def delete_book(self, isbn: str) -> bool:
-        """Deletes a book by ISBN."""
+    def get_books(self) -> list[dict]:
+        """Returns all stored books."""
+        return self.storage.get_all_books()
+
+    def remove_book(self, isbn: str) -> bool:
+        """Removes a book by ISBN."""
         return self.storage.remove_book(isbn)
 
 if __name__ == "__main__":
