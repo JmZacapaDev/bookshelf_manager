@@ -1,9 +1,8 @@
 import argparse
-import logging
+from logger import get_logger
 from book_manager import BookManager
 
-# Set up logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = get_logger(__name__)
 
 def main():
     manager = BookManager()
@@ -21,8 +20,8 @@ def main():
     search_parser = subparsers.add_parser("search", help="Search for a book")
     search_parser.add_argument("isbn", type=str, help="ISBN of the book")
 
-    # Delete book
-    delete_parser = subparsers.add_parser("delete", help="Delete a book")
+    # Remove book
+    delete_parser = subparsers.add_parser("remove", help="remove a book")
     delete_parser.add_argument("isbn", type=str, help="ISBN of the book")
 
     # List books
@@ -32,28 +31,28 @@ def main():
 
     if args.command == "add":
         manager.add_book(args.isbn, args.title, args.author)
-        logging.info(f"Book '{args.title}' added successfully.")
+        logger.info(f"Book '{args.title}' added successfully.")
 
     elif args.command == "search":
-        book = manager.get_book(args.isbn)
+        book = manager.find_book(args.isbn)
         if book:
-            logging.info(f"Found Book: {book}")
+            logger.info(f"Found Book: {book}")
         else:
-            logging.warning("Book not found.")
+            logger.warning("Book not found.")
 
-    elif args.command == "delete":
+    elif args.command == "remove":
         if manager.remove_book(args.isbn):
-            logging.info("Book removed successfully.")
+            logger.info("Book removed successfully.")
         else:
-            logging.warning("Book not found.")
+            logger.warning("Book not found.")
 
     elif args.command == "list":
         books = manager.get_books()
         if books:
             for book in books:
-                logging.info(book)
+                logger.info(book)
         else:
-            logging.info("No books found.")
+            logger.info("No books found.")
 
     else:
         parser.print_help()

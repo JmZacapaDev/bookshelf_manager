@@ -10,17 +10,16 @@ class BookManager:
     def add_book(self, isbn: str, title: str, author: str):
         return self.storage.add_book(isbn, title, author)
 
+    def find_book(self, isbn: str) -> dict | None:
+        """Finds a book by ISBN."""
+        return self.storage.get_book(isbn)
 
     def get_books(self) -> list[dict]:
         """Returns all stored books."""
         return self.storage.get_all_books()
 
-    def find_book(self, isbn: str) -> dict | None:
-        """Finds a book by ISBN."""
-        return self.storage.get_book(isbn)
-
-    def delete_book(self, isbn: str) -> bool:
-        """Deletes a book by ISBN."""
+    def remove_book(self, isbn: str) -> bool:
+        """Removes a book by ISBN."""
         return self.storage.remove_book(isbn)
 
 if __name__ == "__main__":
