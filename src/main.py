@@ -2,10 +2,17 @@ from barcode_validator import BarcodeValidator
 from barcode_processor import BarcodeProcessor
 from barcode_scanner   import KeyboardBarcodeScanner
 from database_manager  import DatabaseManager
-from book_info_service import BookInfoService
+from book_info_service import (
+        ChainedBookInfoService,
+        OpenLibraryService,
+        GoogleBooksService
+        )
 
 def main():
-    book_service = BookInfoService()
+    book_service = ChainedBookInfoService([
+        OpenLibraryService(),
+        GoogleBooksService()
+    ])
     storage = DatabaseManager()
 
     # Sample ISBN
